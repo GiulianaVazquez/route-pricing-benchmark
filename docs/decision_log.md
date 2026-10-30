@@ -130,7 +130,20 @@ Routes where a low-cost carrier has a meaningful share (10% or more) have 5% to 
 ### How do Chicago routes compare to the national benchmark, and how does O’Hare compare to Midway?  
 Chicago’s median price gap is \+5.1% vs −1.0% for all other routes. O’Hare is more expensive than Midway for 92% of destination cities (70 of 76), with a median difference of \+\$31.64 (14.5%) per ticket.
 
-## Step 12: Excel workbook (in progress)
+## Step 12: Excel workbook
+Exported 4 views from BigQuery as CSVs and loaded them as Excel Tables: tbl_route_quarter (17,004 rows), tbl_benchmark (1,160), tbl_chicago (2,806), tbl_carriers (14). Row counts checked with ROWS. 
+
+Added a fare_x_passengers helper column so a PivotTable calculated field could reproduce the passenger-weighted average. 
+
+Pivot Analysis: weighted avg fare by distance band and low-cost presence, and by distance band and competition group. Year and carrier type slicers connected to both. All 8 values match SQL (all years). 
+
+Pivots on tbl_benchmark: share of 4-quarter routes by price position and carrier type. Limited data routes and blank carrier types excluded. 
+
+Route Lookup sheet: dropdown (Data Validation list) plus XLOOKUP for fare, distance, expected fare, gap, position, and carrier. Expected fare and gap show “-” for Limited data routes. Blank carriers show as blank instead of 0. Tested on Portland to Seattle, Atlanta to Charlotte, and Atlantic City to Fort Myers, matching the SQL. 
+
+Reconciliation sheet: 6 checks across 3 tables, all differences under 0.01. 
+
+Notes sheet with purpose, source, sheet guide, definitions, and limits.
 
 ## Step 13: Tableau dashboard (in progress)
 
@@ -148,3 +161,5 @@ Chicago’s median price gap is \+5.1% vs −1.0% for all other routes. O’Hare
 - 306 routes with fewer than 4 quarters are labeled Limited data and not scored as Above or Below.  
 - In Table 1, Chicago combines O’Hare and Midway into one market, so the Chicago vs national comparison blends both airports.  
 - Medians use BigQuery’s approximate percentiles, which can differ slightly from exact values.
+- Single years can tell a different story than all years combined. In 2025, the low-cost fare gap under 500 miles nearly disappears ($191.09 vs $190.56).
+- Distance bands and the competition cutoff (one carrier with 50%+ share) are my choices. Other cutoffs could shift results slightly.
