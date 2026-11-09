@@ -162,7 +162,8 @@ KPIs: routes scored (854 of 1,160), share priced above benchmark (15.1% at the 1
 
 Published to Tableau Public as Route Pricing Benchmark.
 
-## Step 14: Write-up (README) and GitHub (in progress)
+## Step 14: Write-up (README) and GitHub
+Wrote the README with the scenario, four questions, key findings, data, method, checks, repo guide, and limits. Every number in it comes from this log or a verified chart. Uploaded the SQL files, Excel workbook, and this log to GitHub (sql/, excel/, docs/).
 
 ## LIMITS  
 - Fares are quarterly averages per market, not ticket-level prices. I can say where fares are high, not how any airline sets them.  
