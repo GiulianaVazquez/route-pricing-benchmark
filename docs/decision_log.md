@@ -145,7 +145,22 @@ Reconciliation sheet: 6 checks across 3 tables, all differences under 0.01.
 
 Notes sheet with purpose, source, sheet guide, definitions, and limits.
 
-## Step 13: Tableau dashboard (in progress)
+## Step 13: Tableau dashboard
+Connected Tableau Public to the Excel workbook instead of the CSVs, since that’s the version reconciled with SQL. Added Benchmark, Route_Quarter, and Chicago as three separate data sources, because they have different levels of detail (one row per route vs one row per route per quarter).
+
+Fare per mile: top 10 routes by fare per mile, with a distance band dropdown. Only routes with all 4 quarters. Distance band and quarters filters added to context so the Top 10 is picked after filtering. Top route per band: $1.54, $0.60, $0.32, $0.27 per mile.
+
+Carrier vs competition: built a weighted avg fare calculated field, SUM(fare × passengers) / SUM(passengers). The first version summed row-level fares and showed totals in the thousands. All 4 values match the Excel pivots. Dominated routes cost 2.8% more when a legacy carrier leads, but 13.3% less when a low-cost carrier leads.
+
+Routes vs benchmark: added a Cutoff parameter (5% to 30%, default 15%) and a calculated field that relabels each route as Above, In line, Below, or Limited data. At 15%, counts match SQL (129, 586, 139, 306). Also checked at 10% and 20%. Reference lines show the cutoff on both sides. Limited data is hidden by default but can be turned on.
+
+O’Hare vs Midway: last 4 quarters, destinations served by both airports only (COUNTD = 2). The passengers > 0 filter had to be added to context, otherwise Jackson, WY stayed in with only an O’Hare fare. 76 shared cities, O’Hare higher in 70, matching SQL. A pooled weighted average gave +21.2%, but I kept the SQL’s per-city median (+14.5%) so busy, pricey O’Hare routes don’t drive the result. Sorted by the O’Hare minus Midway gap.
+
+Chicago vs national: median gap +5.1% for 57 Chicago routes vs −1.0% for 797 others, matching SQL.
+
+KPIs: routes scored (854 of 1,160), share priced above benchmark (15.1% at the 15% cutoff, moves with the slider), and Chicago median gap (+5.1%). Dropped the national median gap KPI, since it’s −0.5%, near zero by design.
+
+Published to Tableau Public as Route Pricing Benchmark.
 
 ## Step 14: Write-up (README) and GitHub (in progress)
 
